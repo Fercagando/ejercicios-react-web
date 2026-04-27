@@ -2,17 +2,32 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, AlertCircle } from 'lucide-react';
 
+/**
+ * Vista de Contacto
+ * Implementa un formulario interactivo con estado local y validaciones en tiempo real.
+ * Cumple con los requisitos del Ejercicio 2 (Formulario con validación en React).
+ */
 const Contact = () => {
+  // Estado para los valores de los inputs
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
     mensaje: ''
   });
 
+  // Estado para rastrear los errores de validación de cada campo
   const [errors, setErrors] = useState({});
+  // Estado para saber si el usuario ha interactuado (tocado) un campo
   const [touched, setTouched] = useState({});
+  // Estado general de envío
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  /**
+   * Valida un campo específico según las reglas de negocio.
+   * @param {string} name - Nombre del campo a validar.
+   * @param {string} value - Valor actual del campo.
+   * @returns {string} Mensaje de error (vacío si es válido).
+   */
   const validateField = (name, value) => {
     let error = '';
     if (name === 'nombre') {
@@ -35,22 +50,31 @@ const Contact = () => {
     return error;
   };
 
+  /**
+   * Manejador que se dispara cuando el valor de un input cambia.
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     
-    // Validate on change if already touched
+    // Si el campo ya fue "tocado" (ha perdido el foco antes), validamos en tiempo real mientras escribe
     if (touched[name]) {
       setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
     }
   };
 
+  /**
+   * Manejador que se dispara cuando un input pierde el foco (onBlur).
+   */
   const handleBlur = (e) => {
     const { name, value } = e.target;
-    setTouched((prev) => ({ ...prev, [name]: true }));
-    setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+    setTouched((prev) => ({ ...prev, [name]: true })); // Marcamos el campo como tocado
+    setErrors((prev) => ({ ...prev, [name]: validateField(name, value) })); // Validamos
   };
 
+  /**
+   * Manejador del evento de envío del formulario.
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = {

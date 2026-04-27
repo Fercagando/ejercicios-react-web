@@ -8,7 +8,13 @@ const images = [
   { id: 4, src: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80', alt: 'Análisis de Datos' },
 ];
 
+/**
+ * Gallery Component
+ * Galería interactiva de imágenes con estado y animaciones fluidas (framer-motion).
+ * Cumple con los requisitos del Ejercicio 3 (Galería de imágenes interactiva).
+ */
 const Gallery = () => {
+  // Almacenamos la imagen que el usuario ha seleccionado para mostrar en el visor principal
   const [selectedImage, setSelectedImage] = useState(images[0]);
 
   return (

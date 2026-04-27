@@ -2,14 +2,25 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Trash2, Star } from 'lucide-react';
 
+/**
+ * Blog Component (CMS Dinámico)
+ * Permite gestionar un listado de publicaciones en tiempo real usando el estado de React.
+ * Cumple con los requisitos del Ejercicio 4 (Sistema de posts dinámicos).
+ */
 const Blog = () => {
+  // Estado principal para almacenar la lista de publicaciones
   const [posts, setPosts] = useState([
     { id: 1, title: 'Introducción a React', description: 'React es una biblioteca de JavaScript para construir interfaces de usuario.', destacado: true },
     { id: 2, title: 'Estado y Props', description: 'Entendiendo cómo fluye la información en las aplicaciones React.', destacado: false }
   ]);
 
+  // Estado local para gestionar los datos introducidos en el formulario de creación
   const [newPost, setNewPost] = useState({ title: '', description: '' });
 
+  /**
+   * Maneja el evento de envío del formulario para crear un nuevo post.
+   * Evita la recarga de la página y actualiza el estado inmutablemente.
+   */
   const handleCreatePost = (e) => {
     e.preventDefault();
     if (!newPost.title.trim() || !newPost.description.trim()) return;
@@ -25,10 +36,16 @@ const Blog = () => {
     setNewPost({ title: '', description: '' });
   };
 
+  /**
+   * Elimina un post filtrando el array original por su ID.
+   */
   const handleDeletePost = (id) => {
     setPosts(posts.filter(post => post.id !== id));
   };
 
+  /**
+   * Alterna el estado de 'destacado' de un post específico mapeando el array.
+   */
   const toggleDestacado = (id) => {
     setPosts(posts.map(post => 
       post.id === id ? { ...post, destacado: !post.destacado } : post
